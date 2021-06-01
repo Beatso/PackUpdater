@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "build/index.js",
+  "scripts": {},
+  "author": "Beatso",
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^5.3.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.0",
+    "typescript": "^4.3.2"
+  }
+}
