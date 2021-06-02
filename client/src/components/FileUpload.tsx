@@ -2,8 +2,6 @@ import React from 'react'
 
 const FileUpload: React.FC = () => {
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(event.currentTarget)
-
 		if (event.currentTarget.files!.length > 0) {
 			;(
 				event.currentTarget.parentElement!
