@@ -1,36 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import FileUpload from './components/FileUpload'
-import RadioTable from './components/RadioTable'
-import Section from './components/Section'
-import Tab from './components/Tab'
-import Tabs from './components/Tabs'
+import App from './components/App'
 import './index.css'
-import packFormats from './pack_formats.json'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
 	<React.StrictMode>
-		<div className='columns is-desktop'>
-			<div className='column' />
-			<div className='column is-7'>
-				<Section title='Upload Pack'>
-					<Tabs>
-						<Tab title='Upload File'>
-							<FileUpload></FileUpload>
-						</Tab>
-						<Tab title='PMC'></Tab>
-					</Tabs>
-				</Section>
-				<Section title='Choose Pack Format'>
-					<RadioTable
-						columnTitles={['pack_format', 'Versions']}
-						rows={packFormats}
-					/>
-				</Section>
-			</div>
-			<div className='column' />
-		</div>
+		<App></App>
 	</React.StrictMode>,
 	document.getElementById('root')
 )

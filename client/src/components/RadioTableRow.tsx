@@ -1,4 +1,5 @@
 import React from 'react'
+import './RadioTableRow.css'
 
 type Props = {
 	cells: string[]
@@ -19,7 +20,7 @@ const RadioTableRow: React.FC<Props> = ({
 
 	return (
 		<tr
-			className={isSelected ? 'is-selected' : 'is-clickable'}
+			className={isSelected ? 'is-selected is-info' : 'is-clickable'}
 			onClick={onClick}
 		>
 			{cells.map((cell, index) => (
