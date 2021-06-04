@@ -2,6 +2,7 @@ import React from 'react'
 import './TextInput.css'
 
 type Props = {
+	id?: string
 	type?: string
 	label?: string
 	placeholder?: string
@@ -15,6 +16,7 @@ type Props = {
 }
 
 const Tab: React.FC<Props> = ({
+	id,
 	type,
 	label,
 	placeholder,
@@ -38,6 +40,7 @@ const Tab: React.FC<Props> = ({
 					}`}
 				>
 					<input
+						id={id}
 						className='input'
 						type={type || 'text'}
 						placeholder={placeholder}

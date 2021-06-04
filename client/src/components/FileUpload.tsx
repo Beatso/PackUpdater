@@ -4,9 +4,10 @@ type Props = {
 	id: string
 	label?: string
 	help?: string
+	accept?: string
 }
 
-const FileUpload: React.FC<Props> = ({ id, label, help }) => {
+const FileUpload: React.FC<Props> = ({ id, label, help, accept }) => {
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.currentTarget.files!.length > 0) {
 			;(
@@ -23,10 +24,12 @@ const FileUpload: React.FC<Props> = ({ id, label, help }) => {
 				<div className='file has-name'>
 					<label className='file-label'>
 						<input
+							id={id}
 							type='file'
 							name='pack'
 							className='file-input'
 							onChange={onChange}
+							accept={accept}
 						/>
 						<span className='file-cta'>
 							<span className='file-icon'>

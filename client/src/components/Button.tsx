@@ -1,15 +1,19 @@
 import React from 'react'
 
 type props = {
+	text: string
 	onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const Content: React.FC<props> = ({ children, onClick }) => {
+const Button: React.FC<props> = ({ children, text, onClick }) => {
 	return (
-		<button className='button' onClick={onClick}>
+		<div>
+			<button className='button is-primary' onClick={onClick}>
+				{text}
+			</button>
 			{children}
-		</button>
+		</div>
 	)
 }
 
-export default Content
+export default Button
