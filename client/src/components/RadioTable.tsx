@@ -4,9 +4,10 @@ import RadioTableRow from './RadioTableRow'
 type Props = {
 	columnTitles: string[]
 	rows: string[][]
+	onUpdate: (newPackFormat: number) => void
 }
 
-const RadioTable: React.FC<Props> = ({ columnTitles, rows }) => {
+const RadioTable: React.FC<Props> = ({ columnTitles, rows, onUpdate }) => {
 	const [selectedRow, setSelectedRow] = React.useState(6)
 	return (
 		<table className='table'>
@@ -23,7 +24,10 @@ const RadioTable: React.FC<Props> = ({ columnTitles, rows }) => {
 						cells={row}
 						index={index}
 						key={index}
-						setSelectedRow={setSelectedRow}
+						setSelectedRow={(number: number) => {
+							onUpdate(number)
+							setSelectedRow(number)
+						}}
 						isSelected={selectedRow === index}
 					></RadioTableRow>
 				))}

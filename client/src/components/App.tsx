@@ -10,8 +10,11 @@ import Tabs from './Tabs'
 import TextInput from './TextInput'
 import Warning from './Warning'
 
+const SERVER_URL = process.env.REACT_APP_SERVER_URL
+
 const App: React.FC = () => {
 	const [warning, setWarning] = React.useState('')
+	const [newPackFormat, setNewPackFormat] = React.useState(6)
 	return (
 		<div className='columns is-desktop'>
 			<div className='column' />
@@ -51,6 +54,7 @@ const App: React.FC = () => {
 							packFormat,
 							versions,
 						])}
+						onUpdate={setNewPackFormat}
 					/>
 				</Section>
 
@@ -63,28 +67,62 @@ const App: React.FC = () => {
 							<Button
 								text='Update Pack'
 								onClick={async () => {
-									const packUpload = document.getElementById(
-										'pack-upload'
-									) as HTMLInputElement | null
+									const packUploadInput =
+										document.getElementById(
+											'pack-upload'
+										) as HTMLInputElement | null
 
-									if (packUpload) {
-										if (packUpload.files?.length !== 1)
+									if (packUploadInput) {
+										if (packUploadInput.files?.length !== 1)
 											return setWarning(
-												'No file was uploaded.'
+												' No file was uploaded.'
 											)
 
-										const packFile = packUpload.files[0]
-										// todo: send request to server using file
+										const packFile =
+											packUploadInput.files[0]
+
+										const data = new FormData()
+										data.append('packFile', packFile)
+										data.append(
+											'newPackFormat',
+											String(newPackFormat + 1)
+										)
+
+										// send request
+										const response = await (
+											await fetch(
+												`${SERVER_URL}/update_pack_with_file`,
+												{ method: 'POST', body: data }
+											)
+										).json()
 									} else {
 										// using file url
-										const packUrl = document.getElementById(
-											'pack-url'
-										) as HTMLInputElement
+										const packUrlInput =
+											document.getElementById(
+												'pack-url'
+											) as HTMLInputElement
 
-										if (!packUrl.value)
+										const packUrl = packUrlInput.value
+
+										if (!packUrl)
 											return setWarning(
 												'No pack URL was provided.'
 											)
+
+										// send request
+										const response = await (
+											await fetch(
+												`${SERVER_URL}/update_pack_with_url`,
+												{
+													method: 'POST',
+													body: JSON.stringify({
+														packUrl: packUrl,
+														newPackFormat:
+															newPackFormat + 1,
+													}),
+												}
+											)
+										).json()
 									}
 								}}
 							></Button>
