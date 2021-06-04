@@ -20,7 +20,7 @@ const RadioTableRow: React.FC<Props> = ({
 
 	return (
 		<tr
-			className={isSelected ? 'is-selected is-info' : 'is-clickable'}
+			className={isSelected ? 'is-selected' : 'is-clickable'} // custom css: add is-info tag to make blue
 			onClick={onClick}
 		>
 			{cells.map((cell, index) => (

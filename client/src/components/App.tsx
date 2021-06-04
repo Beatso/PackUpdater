@@ -1,6 +1,5 @@
 import React from 'react'
 import packFormats from '../pack_formats.json'
-import Content from './Content'
 import FileUpload from './FileUpload'
 import RadioTable from './RadioTable'
 import Section from './Section'
@@ -18,28 +17,26 @@ const App: React.FC = () => {
 						<Tab title='Upload File'>
 							<FileUpload
 								id='pack-upload'
-								label='Upload Pack'
+								label='Upload'
 								help='Must be a valid resource or data pack, and correctly zipped.'
 							></FileUpload>
 						</Tab>
-						<Tab title='PMC'>
+
+						<Tab title='File URL'>
 							<TextInput
-								id='pmc-link'
-								label='Planet Minecraft Link'
-								placeholder='https://www.planetminecraft.com/texture-pack/gliding-elytra/'
-								help='Must be a link to a  texture pack or data pack on Planet Minecraft.'
+								type='url'
+								label='File URL'
+								placeholder='https://www.example.com/'
+								help='Must be a direct download link to a valid resource or data pack, and correctly zipped.'
 								icon='fas fa-link'
-								button='Find'
-							></TextInput>
+							/>
 						</Tab>
 					</Tabs>
 				</Section>
 
 				<Section title='Choose Pack Format'>
-					<Content>
-						Click on a table row to choose the new{' '}
-						<code>pack_format</code> for your pack.
-					</Content>
+					Click on a table row to choose the new{' '}
+					<code>pack_format</code> for your pack.
 					<RadioTable
 						columnTitles={['pack_format', 'Versions']}
 						rows={packFormats.map(({ packFormat, versions }) => [
@@ -48,6 +45,8 @@ const App: React.FC = () => {
 						])}
 					/>
 				</Section>
+
+				<Section title='Convert Pack'></Section>
 			</div>
 			<div className='column' />
 		</div>

@@ -1,3 +1,7 @@
 .no-bottom-margin {
 	margin-bottom: 0 !important;
 }
+
+.input:invalid {
+	border-color: #f14668 !important;
+}

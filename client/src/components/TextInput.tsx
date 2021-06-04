@@ -2,25 +2,28 @@ import React from 'react'
 import './TextInput.css'
 
 type Props = {
-	id: string
+	type?: string
 	label?: string
 	placeholder?: string
 	help?: string
 	icon?: string
 	button?: string
-	buttonOnClick?: React.MouseEventHandler<HTMLButtonElement>
+	onSubmit?: (
+		value: string,
+		event: React.MouseEvent<Element, MouseEvent>
+	) => void
 }
 
 const Tab: React.FC<Props> = ({
-	children,
-	id,
+	type,
 	label,
 	placeholder,
 	help,
 	icon,
 	button,
-	buttonOnClick,
+	onSubmit,
 }) => {
+	const [value, setValue] = React.useState('')
 	return (
 		<div>
 			{label ? <label className='label'>{label}</label> : null}
@@ -36,9 +39,9 @@ const Tab: React.FC<Props> = ({
 				>
 					<input
 						className='input'
-						type='text'
-						id={id}
+						type={type || 'text'}
 						placeholder={placeholder}
+						onChange={event => setValue(event.target.value)}
 					/>
 					{icon ? (
 						<span className='icon is-small is-left'>
@@ -50,7 +53,9 @@ const Tab: React.FC<Props> = ({
 					<div className='control'>
 						<button
 							className='button is-info'
-							onClick={buttonOnClick}
+							onClick={event => {
+								if (onSubmit) onSubmit(value, event)
+							}}
 						>
 							{button}
 						</button>
