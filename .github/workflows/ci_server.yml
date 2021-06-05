@@ -1,0 +1,32 @@
+name: Continuous Integration (Server)
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check out repo
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+
+            - name: Enter server directory
+              run: cd server
+
+            - name: Install npm dependencies
+              run: npm ci
+
+            - name: Prettier Formatting Check
+              run: npm run prettier:check
+
+            - name: Build TypeScript Project
+              run: npm run build
