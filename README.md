@@ -32,7 +32,7 @@ npm install
 npm run watch
 ```
 
-Will be served on http://localhost:3100/
+Will be served on http://localhost:3100/.
 
 ### To build server for production
 
