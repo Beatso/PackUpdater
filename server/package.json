@@ -25,7 +25,6 @@
 		"@types/dotenv": "^8.2.0",
 		"@types/express": "^4.17.12",
 		"@types/formidable": "^1.2.2",
-		"@types/isomorphic-fetch": "0.0.35",
 		"nodemon": "^2.0.7",
 		"prettier": "^2.3.0",
 		"ts-node": "^10.0.0",
