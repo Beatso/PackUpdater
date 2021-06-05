@@ -5,8 +5,8 @@
 	"main": "build/index.js",
 	"scripts": {
 		"build": "tsc",
-		"prettier:check": "prettier -c .",
-		"prettier:write": "prettier -w ."
+		"prettier:check": "prettier -c . --ignore-path ../.prettierignore",
+		"prettier:write": "prettier -w . --ignore-path ../.prettierignore"
 	},
 	"author": "Beatso",
 	"license": "MIT",
