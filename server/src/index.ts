@@ -1,11 +1,10 @@
 // imports
+import AdmZip from 'adm-zip'
 import { config } from 'dotenv'
 import { Dropbox } from 'dropbox'
 import express from 'express'
 import { File, IncomingForm } from 'formidable'
 import { existsSync } from 'fs'
-import streamZip from 'node-stream-zip'
-import pEvent from 'p-event'
 
 // dotenv setup
 config()
@@ -31,8 +30,13 @@ app.post('/update_pack_with_file', (req, res, next) => {
 
 		const { path, name } = files.packFile as File
 
-		// res.send(await generateResponseFromFilePath(path, name))
-		console.log(await generateResponseFromFilePath(path, name))
+		console.log(
+			await generateResponseFromFilePath(
+				path,
+				name,
+				Number(fields.newPackFormat)
+			)
+		)
 	})
 })
 
@@ -43,37 +47,62 @@ app.post('/update_pack_with_url', async (req, res) => {
 
 const generateResponseFromFilePath = async (
 	path: string,
-	name: string | null
+	name: string | null,
+	newPackFormat: number
 ) => {
-	// check file exists
+	// check pack zip file exists
 	if (!existsSync(path))
 		return JSON.stringify({
 			success: false,
-			reason: 'File did not exist.',
+			reason: 'Pack zip file did not exist.',
 		})
 
-	const zip = new streamZip.async({ file: path })
+	// check pack_format is valid
+	if (
+		isNaN(newPackFormat) || // must be a number
+		!Number.isInteger(newPackFormat) || // must be an integer
+		newPackFormat < 1 || // must be at least 1
+		newPackFormat > 99 // dont allow pack formats greater than 99
+	)
+		return JSON.stringify({
+			success: false,
+			reason: 'Provided pack_format was not a valid number.',
+		})
 
-	// check file has valid pack.mcmeta
-	try {
-		const stream = await zip.stream('pack.mcmeta')
-		// console.log(await pEvent(stream, 'data'))
-		const oldPackMcmetaContents = JSON.parse(
-			(await pEvent(stream, 'data')).toString()
-		)
-		if (typeof oldPackMcmetaContents?.pack?.pack_format !== 'number')
-			return JSON.stringify({
-				success: false,
-				reason: 'pack.mcmeta was not valid.',
-			})
-	} catch {
+	const zip = new AdmZip(path)
+
+	// check pack.mcmeta exists
+	if (
+		!zip.getEntries().some(zipEntry => zipEntry.entryName === 'pack.mcmeta')
+	)
 		return JSON.stringify({
 			success: false,
 			reason: 'Pack had no pack.mcmeta. Make sure it was a valid resource or data pack and is zipped correctly.',
 		})
+
+	const oldPackMcmetaContents = zip.readAsText('pack.mcmeta')
+
+	// check pack.mcmeta is valid
+	try {
+		const oldContentsParsed = JSON.parse(oldPackMcmetaContents) // will throw an error if invalid json syntax
+		if (typeof oldContentsParsed?.pack?.pack_format !== 'number')
+			// throw error if not valid pack.mcmeta
+			throw 'not valid'
+	} catch {
+		return JSON.stringify({
+			success: false,
+			reason: 'pack.mcmeta was not valid.',
+		})
 	}
 
-	// todo: create zip with update pack.mcmeta
+	let packMcmetaContentsParsed = JSON.parse(oldPackMcmetaContents)
+	packMcmetaContentsParsed.pack.pack_format = newPackFormat
+	const newPackMcmetaContents = Buffer.from(
+		JSON.stringify(packMcmetaContentsParsed)
+	)
+	zip.updateFile('pack.mcmeta', newPackMcmetaContents)
+
+	// todo: update pack.mcmeta and rewrite zip
 	// todo: upload zip to dropbox
 	// todo: get direct download link
 	// todo: return direct download link
