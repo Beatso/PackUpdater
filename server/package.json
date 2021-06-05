@@ -18,7 +18,8 @@
 		"express": "^4.17.1",
 		"formidable": "^1.2.2",
 		"isomorphic-fetch": "^3.0.0",
-		"node-stream-zip": "^1.13.4"
+		"node-stream-zip": "^1.13.4",
+		"p-event": "^4.2.0"
 	},
 	"devDependencies": {
 		"@types/archiver": "^5.1.0",
