@@ -155,6 +155,13 @@ const App: React.FC = () => {
 					<a href='https://github.com/twitter/twemoji/blob/master/LICENSE-GRAPHICS'>
 						CC-BY 4.0.
 					</a>
+					<br />
+					<a href='https://www.planetminecraft.com/'>Minecraft</a> is
+					copyright{' '}
+					<a href='https://www.planetminecraft.com/'>
+						Mojang Studios
+					</a>{' '}
+					and is not affiliated with this site.
 				</Footer>
 			</div>
 			<div className='column' />
