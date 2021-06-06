@@ -138,7 +138,11 @@ const App: React.FC = () => {
 					<a href='https://github.com/Beatso/PackUpdater'>
 						open source
 					</a>{' '}
-					under MIT.
+					under{' '}
+					<a href='https://github.com/Beatso/PackUpdater/blob/master/LICENSE'>
+						MIT
+					</a>
+					.
 					<br />
 					The favicon is copyright Twitter, Inc and other
 					contributors, from{' '}
