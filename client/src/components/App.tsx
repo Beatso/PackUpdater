@@ -133,7 +133,7 @@ const App: React.FC = () => {
 				</Section>
 				<Footer>
 					<strong>Pack Updater</strong> by{' '}
-					<a href='https://github.com/Beatso'>Beatso</a>. The project
+					<a href='https://github.com/Beatso'>Beatso</a>. This project
 					is{' '}
 					<a href='https://github.com/Beatso/PackUpdater'>
 						open source
