@@ -7,10 +7,12 @@ import Footer from './Footer'
 import LinkAsButton from './LinkAsButton'
 import RadioTable from './RadioTable'
 import Section from './Section'
+import Subtitle from './Subtitle'
 import SuccessMessage from './SuccessMessage'
 import Tab from './Tab'
 import Tabs from './Tabs'
 import TextInput from './TextInput'
+import Title from './Title'
 import Warning from './Warning'
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL
@@ -25,6 +27,22 @@ const App: React.FC = () => {
 		<div className='columns is-desktop'>
 			<div className='column' />
 			<div className='column is-7'>
+				<div className='section'>
+					<Title>Pack Updater</Title>
+					<Subtitle>
+						A tool to update the pack_format of Minecraft resource
+						packs and data packs
+					</Subtitle>
+					<Content>
+						This does not change the assets of a pack, only the
+						pack.mcmeta. All packs must be{' '}
+						<a href='https://rpinfo.beatso.tk/docs/how-to-zip-a-resource-pack/'>
+							correctly zipped
+						</a>
+						.
+					</Content>
+				</div>
+
 				<Section title='Upload Pack'>
 					<Tabs>
 						<Tab title='Upload File'>
