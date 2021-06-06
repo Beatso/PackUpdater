@@ -8,7 +8,9 @@ import { existsSync } from 'fs'
 import { v4 } from 'uuid'
 
 // dotenv setup
-config()
+config({
+	path: process.env.NODE_ENV === 'production' ? '../../.env' : undefined,
+})
 
 // dropbox setup
 const dbx = new Dropbox({
