@@ -1,11 +1,9 @@
 import React from 'react'
 import TabTitle from './TabTitle'
 
-type Props = {
+const Tabs: React.FC<{
 	children: React.ReactElement[]
-}
-
-const Tabs: React.FC<Props> = ({ children }) => {
+}> = ({ children }) => {
 	const [selectedTab, setSelectedTab] = React.useState(0)
 	return (
 		<div>

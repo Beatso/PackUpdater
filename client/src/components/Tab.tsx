@@ -1,10 +1,8 @@
 import React from 'react'
 
-type Props = {
+const Tab: React.FC<{
 	title: string
-}
-
-const Tab: React.FC<Props> = ({ children }) => {
+}> = ({ children }) => {
 	return <div>{children}</div>
 }
 

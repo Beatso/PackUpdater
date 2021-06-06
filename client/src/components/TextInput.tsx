@@ -1,7 +1,7 @@
 import React from 'react'
 import './TextInput.css'
 
-type Props = {
+const Tab: React.FC<{
 	id?: string
 	type?: string
 	label?: string
@@ -13,18 +13,7 @@ type Props = {
 		value: string,
 		event: React.MouseEvent<Element, MouseEvent>
 	) => void
-}
-
-const Tab: React.FC<Props> = ({
-	id,
-	type,
-	label,
-	placeholder,
-	help,
-	icon,
-	button,
-	onSubmit,
-}) => {
+}> = ({ id, type, label, placeholder, help, icon, button, onSubmit }) => {
 	const [value, setValue] = React.useState('')
 	return (
 		<div>

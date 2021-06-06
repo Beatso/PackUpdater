@@ -1,18 +1,11 @@
 import React from 'react'
 
-type Props = {
+const TabTitle: React.FC<{
 	title: string
 	index: number
 	setSelectedTab: (index: number) => void
 	isSelected: boolean
-}
-
-const TabTitle: React.FC<Props> = ({
-	title,
-	setSelectedTab,
-	index,
-	isSelected,
-}) => {
+}> = ({ title, setSelectedTab, index, isSelected }) => {
 	const onClick = React.useCallback(() => {
 		setSelectedTab(index)
 	}, [setSelectedTab, index])

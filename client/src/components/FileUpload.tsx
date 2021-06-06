@@ -1,13 +1,11 @@
 import React from 'react'
 
-type Props = {
+const FileUpload: React.FC<{
 	id: string
 	label?: string
 	help?: string
 	accept?: string
-}
-
-const FileUpload: React.FC<Props> = ({ id, label, help, accept }) => {
+}> = ({ id, label, help, accept }) => {
 	const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.currentTarget.files!.length > 0) {
 			;(

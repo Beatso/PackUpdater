@@ -1,19 +1,12 @@
 import React from 'react'
 import './RadioTableRow.css'
 
-type Props = {
+const RadioTableRow: React.FC<{
 	cells: string[]
 	index: number
 	setSelectedRow: (index: number) => void
 	isSelected: boolean
-}
-
-const RadioTableRow: React.FC<Props> = ({
-	cells,
-	isSelected,
-	setSelectedRow,
-	index,
-}) => {
+}> = ({ cells, isSelected, setSelectedRow, index }) => {
 	const onClick = React.useCallback(() => {
 		setSelectedRow(index)
 	}, [setSelectedRow, index])
