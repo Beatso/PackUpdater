@@ -5,6 +5,7 @@ import { Dropbox } from 'dropbox'
 import express from 'express'
 import { File, IncomingForm } from 'formidable'
 import { existsSync } from 'fs'
+import { v4 } from 'uuid'
 
 // dotenv setup
 config()
@@ -30,7 +31,7 @@ app.post('/update_pack_with_file', (req, res, next) => {
 
 		const { path, name } = files.packFile as File
 
-		console.log(
+		res.send(
 			await generateResponseFromFilePath(
 				path,
 				name,
@@ -50,62 +51,90 @@ const generateResponseFromFilePath = async (
 	name: string | null,
 	newPackFormat: number
 ) => {
-	// check pack zip file exists
-	if (!existsSync(path))
-		return JSON.stringify({
-			success: false,
-			reason: 'Pack zip file did not exist.',
-		})
-
-	// check pack_format is valid
-	if (
-		isNaN(newPackFormat) || // must be a number
-		!Number.isInteger(newPackFormat) || // must be an integer
-		newPackFormat < 1 || // must be at least 1
-		newPackFormat > 99 // dont allow pack formats greater than 99
-	)
-		return JSON.stringify({
-			success: false,
-			reason: 'Provided pack_format was not a valid number.',
-		})
-
-	const zip = new AdmZip(path)
-
-	// check pack.mcmeta exists
-	if (
-		!zip.getEntries().some(zipEntry => zipEntry.entryName === 'pack.mcmeta')
-	)
-		return JSON.stringify({
-			success: false,
-			reason: 'Pack had no pack.mcmeta. Make sure it was a valid resource or data pack and is zipped correctly.',
-		})
-
-	const oldPackMcmetaContents = zip.readAsText('pack.mcmeta')
-
-	// check pack.mcmeta is valid
 	try {
-		const oldContentsParsed = JSON.parse(oldPackMcmetaContents) // will throw an error if invalid json syntax
-		if (typeof oldContentsParsed?.pack?.pack_format !== 'number')
-			// throw error if not valid pack.mcmeta
-			throw 'not valid'
-	} catch {
+		// check pack zip file exists
+		if (!existsSync(path))
+			return JSON.stringify({
+				success: false,
+				reason: 'Pack zip file did not exist.',
+			})
+
+		// check pack_format is valid
+		if (
+			isNaN(newPackFormat) || // must be a number
+			!Number.isInteger(newPackFormat) || // must be an integer
+			newPackFormat < 1 || // must be at least 1
+			newPackFormat > 99 // dont allow pack formats greater than 99
+		)
+			return JSON.stringify({
+				success: false,
+				reason: 'Provided pack_format was not a valid number.',
+			})
+
+		const zip = new AdmZip(path)
+
+		// check pack.mcmeta exists
+		if (
+			!zip
+				.getEntries()
+				.some(zipEntry => zipEntry.entryName === 'pack.mcmeta')
+		)
+			return JSON.stringify({
+				success: false,
+				reason: 'Pack had no pack.mcmeta. Make sure it was a valid resource or data pack and is zipped correctly.',
+			})
+
+		const oldPackMcmetaContents = zip.readAsText('pack.mcmeta')
+
+		// check pack.mcmeta is valid
+		try {
+			const oldContentsParsed = JSON.parse(oldPackMcmetaContents) // will throw an error if invalid json syntax
+			if (typeof oldContentsParsed?.pack?.pack_format !== 'number')
+				// throw error if not valid pack.mcmeta
+				throw 'not valid'
+		} catch {
+			return JSON.stringify({
+				success: false,
+				reason: 'pack.mcmeta was not valid.',
+			})
+		}
+
+		// update pack.mcmeta
+		let packMcmetaContentsParsed = JSON.parse(oldPackMcmetaContents)
+		packMcmetaContentsParsed.pack.pack_format = newPackFormat
+		const newPackMcmetaContents = Buffer.from(
+			JSON.stringify(packMcmetaContentsParsed)
+		)
+		zip.updateFile('pack.mcmeta', newPackMcmetaContents)
+
+		// get new zip contents as buffer
+		const newZipContents = zip.toBuffer()
+
+		// upload zip to dropbox
+		const dropboxFilePath = `/${v4()}/updated-${name}`
+		await dbx.filesUpload({
+			path: dropboxFilePath,
+			contents: newZipContents,
+		})
+
+		// get direct download link
+		const shareLink = (
+			await dbx.filesGetTemporaryLink({ path: dropboxFilePath })
+		).result.link
+
+		// return direct download link
+		return JSON.stringify({
+			success: true,
+			download: shareLink,
+		})
+	} catch (error) {
+		// catch any other errors
+		console.error(error)
 		return JSON.stringify({
 			success: false,
-			reason: 'pack.mcmeta was not valid.',
+			reason: 'An unknown error occurred while trying to update your pack.',
 		})
 	}
-
-	let packMcmetaContentsParsed = JSON.parse(oldPackMcmetaContents)
-	packMcmetaContentsParsed.pack.pack_format = newPackFormat
-	const newPackMcmetaContents = Buffer.from(
-		JSON.stringify(packMcmetaContentsParsed)
-	)
-	zip.updateFile('pack.mcmeta', newPackMcmetaContents)
-
-	// todo: update pack.mcmeta and rewrite zip
-	// todo: upload zip to dropbox
-	// todo: get direct download link
-	// todo: return direct download link
 }
 
 // listen express server
