@@ -25,7 +25,7 @@ const App: React.FC = () => {
 	return (
 		<div className='columns is-desktop'>
 			<div className='column is-6 is-offset-3'>
-				<div className='section'>
+				<section className='section'>
 					<Title>Pack Updater</Title>
 					<Subtitle>
 						A tool to update the pack_format of Minecraft resource
@@ -39,7 +39,7 @@ const App: React.FC = () => {
 						</a>
 						.
 					</Content>
-				</div>
+				</section>
 
 				<Section title='Upload Pack'>
 					<Tabs>
@@ -244,7 +244,7 @@ const App: React.FC = () => {
 				</Footer>
 			</div>
 			<div className='column is-narrow'>
-				<div className='section'>
+				<section className='section'>
 					<Message color='is-info'>
 						<span className='icon-text'>
 							<span className='icon'>
@@ -259,7 +259,7 @@ const App: React.FC = () => {
 							</span>
 						</span>
 					</Message>
-				</div>
+				</section>
 			</div>
 		</div>
 	)
