@@ -4,8 +4,10 @@ import Button from './Button'
 import Content from './Content'
 import FileUpload from './FileUpload'
 import Footer from './Footer'
+import LinkAsButton from './LinkAsButton'
 import RadioTable from './RadioTable'
 import Section from './Section'
+import SuccessMessage from './SuccessMessage'
 import Tab from './Tab'
 import Tabs from './Tabs'
 import TextInput from './TextInput'
@@ -15,7 +17,9 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL
 
 const App: React.FC = () => {
 	const [warning, setWarning] = React.useState('')
+	const [downloadUrl, setDownloadUrl] = React.useState('')
 	const [newPackFormat, setNewPackFormat] = React.useState(6)
+
 	return (
 		<div className='columns is-desktop'>
 			<div className='column' />
@@ -73,11 +77,32 @@ const App: React.FC = () => {
 											'pack-upload'
 										) as HTMLInputElement | null
 
+									interface postResponse {
+										success: boolean
+										download?: string
+										reason?: string
+									}
+
+									const handleResponse = (
+										response: postResponse
+									) => {
+										if (response.success)
+											setDownloadUrl(response.download!)
+										else
+											setWarning(
+												response.reason ||
+													'An unknown error occurred while trying to update the pack.'
+											)
+									}
+
 									if (packUploadInput) {
 										if (packUploadInput.files?.length !== 1)
 											return setWarning(
 												' No file was uploaded.'
 											)
+
+										// clear warning
+										setWarning('')
 
 										const packFile =
 											packUploadInput.files[0]
@@ -96,7 +121,12 @@ const App: React.FC = () => {
 												{ method: 'POST', body: data }
 											)
 										).json()
+
+										handleResponse(response)
 									} else {
+										// clear warning
+										setWarning('')
+
 										// using file url
 										const packUrlInput =
 											document.getElementById(
@@ -124,11 +154,25 @@ const App: React.FC = () => {
 												}
 											)
 										).json()
+
+										handleResponse(response)
 									}
 								}}
 							></Button>
 						</Content>
 						{warning ? <Warning>{warning}</Warning> : null}
+						{downloadUrl ? (
+							<SuccessMessage>
+								Pack was updated successfully.
+								<br />
+								<LinkAsButton
+									href={downloadUrl}
+									color='is-success'
+								>
+									Download Updated Pack
+								</LinkAsButton>
+							</SuccessMessage>
+						) : null}
 					</div>
 				</Section>
 				<Footer>
