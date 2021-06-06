@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Content: React.FC = ({ children }) => {
-	return <p className='content'>{children}</p>
+	return <div className='content'>{children}</div>
 }
 
 export default Content
