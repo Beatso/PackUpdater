@@ -3,6 +3,7 @@ import packFormats from '../pack_formats.json'
 import Button from './Button'
 import Content from './Content'
 import FileUpload from './FileUpload'
+import Footer from './Footer'
 import RadioTable from './RadioTable'
 import Section from './Section'
 import Tab from './Tab'
@@ -130,6 +131,27 @@ const App: React.FC = () => {
 						{warning ? <Warning>{warning}</Warning> : null}
 					</div>
 				</Section>
+				<Footer>
+					<strong>Pack Updater</strong> by{' '}
+					<a href='https://github.com/Beatso'>Beatso</a>. The project
+					is{' '}
+					<a href='https://github.com/Beatso/PackUpdater'>
+						open source
+					</a>{' '}
+					under MIT.
+					<br />
+					The favicon is copyright Twitter, Inc and other
+					contributors, from{' '}
+					<a href='https://github.com/twitter/twemoji'>Twemoji</a>.
+					The{' '}
+					<a href='https://github.com/twitter/twemoji/blob/master/assets/svg/1f4c2.svg'>
+						graphic
+					</a>{' '}
+					is licensed under{' '}
+					<a href='https://github.com/twitter/twemoji/blob/master/LICENSE-GRAPHICS'>
+						CC-BY 4.0.
+					</a>
+				</Footer>
 			</div>
 			<div className='column' />
 		</div>
