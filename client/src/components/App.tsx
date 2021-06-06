@@ -5,15 +5,14 @@ import Content from './Content'
 import FileUpload from './FileUpload'
 import Footer from './Footer'
 import LinkAsButton from './LinkAsButton'
+import Message from './Message'
 import RadioTable from './RadioTable'
 import Section from './Section'
 import Subtitle from './Subtitle'
-import SuccessMessage from './SuccessMessage'
 import Tab from './Tab'
 import Tabs from './Tabs'
 import TextInput from './TextInput'
 import Title from './Title'
-import Warning from './Warning'
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL
 
@@ -197,9 +196,11 @@ const App: React.FC = () => {
 								}}
 							></Button>
 						</Content>
-						{warning ? <Warning>{warning}</Warning> : null}
+						{warning ? (
+							<Message color='is-danger'>{warning}</Message>
+						) : null}
 						{downloadUrl ? (
-							<SuccessMessage>
+							<Message color='is-success'>
 								Pack was updated successfully.
 								<br />
 								<LinkAsButton
@@ -208,7 +209,7 @@ const App: React.FC = () => {
 								>
 									Download Updated Pack
 								</LinkAsButton>
-							</SuccessMessage>
+							</Message>
 						) : null}
 					</div>
 				</Section>
@@ -245,7 +246,7 @@ const App: React.FC = () => {
 					and is not affiliated with this site.
 				</Footer>
 			</div>
-			<div className='column' />
+			<div className='column'></div>
 		</div>
 	)
 }
