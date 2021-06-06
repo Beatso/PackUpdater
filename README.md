@@ -24,8 +24,8 @@ A tool to update the pack_format of Minecraft resource packs and data packs
 
 Dependencies:
 
--   Node.js v12
--   npm
+-   [Node.js](https://nodejs.org/en/) v14 LTS
+-   [npm](https://docs.npmjs.com/)
 
 ### To run client development server
 
