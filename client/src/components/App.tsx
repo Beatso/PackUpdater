@@ -18,6 +18,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL
 const App: React.FC = () => {
 	const [warning, setWarning] = React.useState('')
 	const [downloadUrl, setDownloadUrl] = React.useState('')
+	const [requestIsLoading, setRequestIsLoading] = React.useState(false)
 	const [newPackFormat, setNewPackFormat] = React.useState(6)
 
 	return (
@@ -71,92 +72,110 @@ const App: React.FC = () => {
 							<br />
 							<Button
 								text='Update Pack'
-								onClick={async () => {
-									const packUploadInput =
-										document.getElementById(
-											'pack-upload'
-										) as HTMLInputElement | null
+								isLoading={requestIsLoading}
+								onClick={() => {
+									;(async () => {
+										// make button appear as loading
+										setRequestIsLoading(true)
 
-									interface postResponse {
-										success: boolean
-										download?: string
-										reason?: string
-									}
-
-									const handleResponse = (
-										response: postResponse
-									) => {
-										if (response.success)
-											setDownloadUrl(response.download!)
-										else
-											setWarning(
-												response.reason ||
-													'An unknown error occurred while trying to update the pack.'
-											)
-									}
-
-									if (packUploadInput) {
-										if (packUploadInput.files?.length !== 1)
-											return setWarning(
-												' No file was uploaded.'
-											)
-
-										// clear warning
-										setWarning('')
-
-										const packFile =
-											packUploadInput.files[0]
-
-										const data = new FormData()
-										data.append('packFile', packFile)
-										data.append(
-											'newPackFormat',
-											String(newPackFormat + 1)
-										)
-
-										// send request
-										const response = await (
-											await fetch(
-												`${SERVER_URL}/update_pack_with_file`,
-												{ method: 'POST', body: data }
-											)
-										).json()
-
-										handleResponse(response)
-									} else {
-										// clear warning
-										setWarning('')
-
-										// using file url
-										const packUrlInput =
+										const packUploadInput =
 											document.getElementById(
-												'pack-url'
-											) as HTMLInputElement
+												'pack-upload'
+											) as HTMLInputElement | null
 
-										const packUrl = packUrlInput.value
+										interface postResponse {
+											success: boolean
+											download?: string
+											reason?: string
+										}
 
-										if (!packUrl)
-											return setWarning(
-												'No pack URL was provided.'
+										const handleResponse = (
+											response: postResponse
+										) => {
+											if (response.success)
+												setDownloadUrl(
+													response.download!
+												)
+											else
+												setWarning(
+													response.reason ||
+														'An unknown error occurred while trying to update the pack.'
+												)
+										}
+
+										if (packUploadInput) {
+											if (
+												packUploadInput.files
+													?.length !== 1
+											)
+												return setWarning(
+													' No file was uploaded.'
+												)
+
+											// clear warning
+											setWarning('')
+
+											const packFile =
+												packUploadInput.files[0]
+
+											const data = new FormData()
+											data.append('packFile', packFile)
+											data.append(
+												'newPackFormat',
+												String(newPackFormat + 1)
 											)
 
-										// send request
-										const response = await (
-											await fetch(
-												`${SERVER_URL}/update_pack_with_url`,
-												{
-													method: 'POST',
-													body: JSON.stringify({
-														packUrl: packUrl,
-														newPackFormat:
-															newPackFormat + 1,
-													}),
-												}
-											)
-										).json()
+											// send request
+											const response = await (
+												await fetch(
+													`${SERVER_URL}/update_pack_with_file`,
+													{
+														method: 'POST',
+														body: data,
+													}
+												)
+											).json()
 
-										handleResponse(response)
-									}
+											handleResponse(response)
+										} else {
+											// clear warning
+											setWarning('')
+
+											// using file url
+											const packUrlInput =
+												document.getElementById(
+													'pack-url'
+												) as HTMLInputElement
+
+											const packUrl = packUrlInput.value
+
+											if (!packUrl)
+												return setWarning(
+													'No pack URL was provided.'
+												)
+
+											// send request
+											const response = await (
+												await fetch(
+													`${SERVER_URL}/update_pack_with_url`,
+													{
+														method: 'POST',
+														body: JSON.stringify({
+															packUrl: packUrl,
+															newPackFormat:
+																newPackFormat +
+																1,
+														}),
+													}
+												)
+											).json()
+
+											handleResponse(response)
+										}
+									})().then(() => {
+										// make button appear as finished loading
+										setRequestIsLoading(false)
+									})
 								}}
 							></Button>
 						</Content>
