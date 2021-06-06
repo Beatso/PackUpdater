@@ -93,6 +93,10 @@ const App: React.FC = () => {
 									;(async () => {
 										// make button appear as loading
 										setRequestIsLoading(true)
+										// clear warning
+										setWarning('')
+										// clear success
+										setDownloadUrl('')
 
 										const packUploadInput =
 											document.getElementById(
@@ -128,9 +132,6 @@ const App: React.FC = () => {
 													' No file was uploaded.'
 												)
 
-											// clear warning
-											setWarning('')
-
 											const packFile =
 												packUploadInput.files[0]
 
@@ -154,9 +155,6 @@ const App: React.FC = () => {
 
 											handleResponse(response)
 										} else {
-											// clear warning
-											setWarning('')
-
 											// using file url
 											const packUrlInput =
 												document.getElementById(
