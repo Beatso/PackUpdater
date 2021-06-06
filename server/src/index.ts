@@ -19,6 +19,10 @@ const dbx = new Dropbox({
 const app = express()
 app.use(express.json()) // to support JSON-encoded bodies
 app.get('/ping', (req, res) => res.send('pong'))
+app.all('*', (req, res, next) => {
+	res.header('access-control-allow-origin', '*')
+	next()
+})
 
 // handle file update requests
 app.post('/update_pack_with_file', (req, res, next) => {
