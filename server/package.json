@@ -4,6 +4,8 @@
 	"private": true,
 	"main": "build/index.js",
 	"scripts": {
+		"prestart": "npm run build",
+		"start": "node .",
 		"build": "tsc",
 		"watch": "nodemon src/index.ts",
 		"prettier:check": "prettier -c . --ignore-path ../.prettierignore",
