@@ -107,7 +107,7 @@ const generateResponseFromFilePath = async (
 		let packMcmetaContentsParsed = JSON.parse(oldPackMcmetaContents)
 		packMcmetaContentsParsed.pack.pack_format = newPackFormat
 		const newPackMcmetaContents = Buffer.from(
-			JSON.stringify(packMcmetaContentsParsed)
+			JSON.stringify(packMcmetaContentsParsed, null, 2)
 		)
 		zip.updateFile('pack.mcmeta', newPackMcmetaContents)
 
