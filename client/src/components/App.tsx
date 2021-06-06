@@ -24,8 +24,7 @@ const App: React.FC = () => {
 
 	return (
 		<div className='columns is-desktop'>
-			<div className='column' />
-			<div className='column is-7'>
+			<div className='column is-6 is-offset-3'>
 				<div className='section'>
 					<Title>Pack Updater</Title>
 					<Subtitle>
@@ -246,7 +245,24 @@ const App: React.FC = () => {
 					and is not affiliated with this site.
 				</Footer>
 			</div>
-			<div className='column'></div>
+			<div className='column is-narrow'>
+				<div className='section'>
+					<Message color='is-info'>
+						<span className='icon-text'>
+							<span className='icon'>
+								<i className='fab fa-lg fa-github'></i>
+							</span>
+							<span>
+								I'm{' '}
+								<a href='https://github.com/Beatso/PackUpdater'>
+									open source
+								</a>
+								!
+							</span>
+						</span>
+					</Message>
+				</div>
+			</div>
 		</div>
 	)
 }
