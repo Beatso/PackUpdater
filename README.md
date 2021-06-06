@@ -1,4 +1,6 @@
-# Pack Updater
+# [Pack Updater](https://packupdater.netlify.app/)
+
+A tool to update the pack_format of Minecraft resource packs and data packs
 
 ## Technologies Used
 
