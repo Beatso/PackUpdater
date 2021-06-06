@@ -1,0 +1,2 @@
+language = "bash"
+run = "git pull && cd server && npm i && npm start"
