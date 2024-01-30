@@ -34,7 +34,7 @@ const App: React.FC = () => {
 					<Content>
 						This does not change the assets of a pack, only the
 						pack.mcmeta. All packs must be{' '}
-						<a href='https://rpinfo.beatso.tk/docs/how-to-zip-a-resource-pack/'>
+						<a href='https://rpinfo.netlify.app/docs/how-to-zip-a-resource-pack/'>
 							correctly zipped
 						</a>
 						.
