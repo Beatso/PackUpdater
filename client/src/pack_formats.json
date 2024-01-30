@@ -25,6 +25,34 @@
 	},
 	{
 		"packFormat": "7",
-		"versions": "1.17"
+		"versions": "1.17 – 1.17.1"
+	},
+	{
+		"packFormat": "8",
+		"versions": "1.18 – 18.18.2"
+	},
+	{
+		"packFormat": "9",
+		"versions": "1.19 – 1.19.2"
+	},
+	{
+		"packFormat": "12",
+		"versions": "1.19.3"
+	},
+	{
+		"packFormat": "13",
+		"versions": "1.19.4"
+	},
+	{
+		"packFormat": "15",
+		"versions": "1.20 – 1.20.1"
+	},
+	{
+		"packFormat": "18",
+		"versions": "1.20.2"
+	},
+	{
+		"packFormat": "22",
+		"versions": "1.20.3 – 1.20.4"
 	}
 ]
